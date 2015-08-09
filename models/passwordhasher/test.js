@@ -1,4 +1,4 @@
-var passhash = require('./passwordhasher.js')();
+passhash = require('./passwordhasher.js')();
 
 passhash.makeHash('12345678').then(function(result){
   console.log(result);
