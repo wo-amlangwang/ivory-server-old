@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var Promise = require('Promise');
+var Promise = require('promise');
 var base ='heroku_1024a2f8499bceb';
 module.exports=function(){
   var buildConnection = function(){
