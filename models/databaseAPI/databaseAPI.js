@@ -17,6 +17,22 @@ module.exports=function(){
     return connection;
   }
   return{
+    findUserByEmail : function(email){
+      var ps = new Promise(function(fullfill,reject){
+        var connection = buildConnection();
+        var query = 'SELECT * FROM ' + base + '.user WHERE email LIKE' + ' \'' + email
+                    + '\'';
+        connection.query(query,function(err,rows,fields){
+          if(err){
+            reject(err);
+          }else {
+            fullfill(rows);
+          }
+        });
+        connection.end();
+      });
+      return ps;
+    },
     findUserById : function(id){
       var ps = new Promise(function(fullfill,reject){
         var connection = buildConnection();
