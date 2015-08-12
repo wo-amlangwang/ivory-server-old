@@ -60,7 +60,7 @@ module.exports=function(){
         var connection = buildConnection();
         var query = 'INSERT INTO ' + base
             + '.user (email,hashed_pw,pwsalt) VALUES ('+'\''+ data.email
-            +'\',\''+ data.hasehed_pw +'\',\''+ data.pwsalt +'\')';
+            +'\',\''+ data.hashed_pw +'\',\''+ data.pwsalt +'\')';
         connection.query(query,function(err,result,fields){
           if(err){
             reject(err);

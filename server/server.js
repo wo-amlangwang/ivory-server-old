@@ -15,7 +15,7 @@ app.get('/',function(req,res){
 });
 
 app.get('/signin',function(req,res){
-  res.sendfile('./server/signin.html');
+  res.sendFile('./server/signin.html');
 });
 
 app.post('/signin',function(req,res){
@@ -26,13 +26,14 @@ app.post('/signin',function(req,res){
       res.status(201).send({'reason' : 'email been used'});
     }else{
       hasher.makeHash(password).then(function(result){
+        console.log(result);
         var user_info = {'email' : email,
                          'hashed_pw' : result.hashed_pw,
                          'pwsalt' : result.pwsalt};
         database.insertNewUser(user_info).then(function(result){
           token.makeToken({'id' : result.insertId}).then(function(token){
             res.status(200).send({'reason' : 'ok',
-                                  'token' : token});
+                                  'token' : token.token});
           });
         });
       }).catch(function(err){
