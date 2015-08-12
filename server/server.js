@@ -32,9 +32,9 @@ app.post('/signin',function(req,res){
                          'hashed_pw' : result.hashed_pw,
                          'pwsalt' : result.pwsalt};
         database.insertNewUser(user_info).then(function(result){
-          token.makeToken({'id' : result.insertId}).then(function(token){
+          token.makeToken({'id' : result.insertId}).then(function(thistoken){
             res.status(200).send({'reason' : 'ok',
-                                  'token' : token.token});
+                                  'token' : thistoken.token});
           });
         });
       }).catch(function(err){
@@ -48,14 +48,28 @@ app.post('/signin',function(req,res){
 
 app.post('/authentication',function(req,res){
   var email = req.body.email;
+  var password = req.body.password;
   database.findUserByEmail(email).then(function(rows){
-      
+    hasher.comparePassword(password,rows[0]).then(function(result){
+      token.makeToken({'id' : rows[0].id}).then(function(thistoken){
+        res.status(200).send({'reason' : 'ok',
+                              'token' : thistoken.token});
+      }).catch(function(err){
+        console.log(err);
+      });
+    }).catch(function(result){
+      res.status(201).send({'reason' : 'incorrect username or password',
+                            'token' : null});
+    });
   }).catch(function(err){
     res.status(201).send({'reason' : 'incorrect username or password',
                           'token' : null});
   });
 });
 
+app.get('/user',function(req,res){
+  res.send('After you sign in  you will be here');
+});
 
 http.listen(port,function(err){
   if(err){
