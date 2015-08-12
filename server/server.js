@@ -46,7 +46,15 @@ app.post('/signin',function(req,res){
   });
 });
 
-
+app.post('/authentication',function(req,res){
+  var email = req.body.email;
+  database.findUserByEmail(email).then(function(rows){
+      
+  }).catch(function(err){
+    res.status(201).send({'reason' : 'incorrect username or password',
+                          'token' : null});
+  });
+});
 
 
 http.listen(port,function(err){
