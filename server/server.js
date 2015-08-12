@@ -13,11 +13,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/',function(req,res){
   res.send('welcome,ivory-server,test api in /signin');
 });
-
+/**
+  signin block
+**/
 app.get('/signin',function(req,res){
-  res.sendFile('./server/signin.html');
+  res.sendfile('./server/signin.html');
 });
-
 app.post('/signin',function(req,res){
   var email = req.body.email;
   var password = req.body.password;
