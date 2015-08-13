@@ -121,6 +121,22 @@ module.exports=function(){
         connection.end();
       });
       return ps;
+    },
+    findProfileIdByUserId : function(user_id){
+      var ps = new Promise(function(fullfill,reject){
+        var connection = buildConnection();
+        var query = 'SELECT profile_id FROM ' + base + '.profile_user_links WHERE user_id LIKE' + ' \''
+                    + user_id + '\'';
+        connection.query(query,function(err,result,fields){
+          if(err){
+            reject(err);
+          }else {
+            fullfill(result);
+          }
+        });
+        connection.end();
+      });
+      return ps;
     }
   }
 }
