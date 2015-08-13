@@ -2,7 +2,7 @@ var database = require('../models/databaseAPI/databaseAPI.js')();
 var hasher = require('../models/passwordhasher/passwordhasher.js')();
 var token = require('../models/tokenmaker/tokenmaker.js')();
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var app = express();
 var http = require('http').Server(app);
 
@@ -73,31 +73,35 @@ app.get('/user',function(req,res){
 
 app.post('/user',function(req,res){
   var token = req.token;
-  token.verToken(token).then(function(decoded){
-    var userid = decoded.id;
-    database.findProfileIdByUserId(userid).then(function(result){
-      if(result[0] === null)
-      {
-        database.insertNewProfile().then(function(result){
-          var pid = result.insertId;
-          database.connectProfileWithUser(userid,pid).then(function(){
-            //TODO
+  if(token === undefined){
+    res.status(401).send({'reason' : 'need token'});
+  }else{
+    token.verToken(token).then(function(decoded){
+      var userid = decoded.id;
+      database.findProfileIdByUserId(userid).then(function(result){
+        if(result[0] === null)
+        {
+          database.insertNewProfile().then(function(result){
+            var pid = result.insertId;
+            database.connectProfileWithUser(userid,pid).then(function(result){
+              //TODO
+            }).catch(function(err){
+              console.log(err);
+            });
           }).catch(function(err){
             console.log(err);
           });
-        }).catch(function(err){
-          console.log(err);
-        });
-      }else {
-        //TODO
-      }
+        }else {
+          //TODO
+        }
+      }).catch(function(err){
+        console.log(err);
+      });
     }).catch(function(err){
-      console.log(err);
+      res.send(401).send(err);
     });
-  }).catch(function(err){
-    res.send(401).send(err);
-  });
-})
+  }
+});
 
 http.listen(port,function(err){
   if(err){
