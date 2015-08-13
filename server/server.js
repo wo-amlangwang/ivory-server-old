@@ -73,7 +73,7 @@ app.get('/user',function(req,res){
 
 app.post('/user',function(req,res){
   var token = req.token;
-  if(token === undefined){
+  if(token === undefined || token === null){
     res.status(401).send({'reason' : 'need token'});
   }else{
     token.verToken(token).then(function(decoded){

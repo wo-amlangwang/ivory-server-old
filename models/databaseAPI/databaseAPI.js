@@ -1,6 +1,16 @@
 var mysql = require('mysql');
 var Promise = require('promise');
 var base ='heroku_1024a2f8499bceb';
+/**
+APIs:
+findUserByEmail
+findUserById
+insertNewUser
+insertNewProfile
+findProfileById
+connectProfileWithUser
+findProfileIdByUserId
+**/
 module.exports=function(){
   var buildConnection = function(){
     var connection = mysql.createConnection({
