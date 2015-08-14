@@ -72,6 +72,7 @@ app.post('/authentication',function(req,res){
 
 app.post('/user',function(req,res){
   var thistoken = req.token;
+  console.log(thistoken);
   if(thistoken === undefined || thistoken === null){
     res.status(403).send({'reason' : 'need token'});
   }else {
