@@ -1,6 +1,13 @@
 var database = require('./databaseAPI.js')();
 
 
+database.upDateProfile({'id' : '32', 'first_name' : 'fangzhou', 'last_name' : 'lin'}).then(function(result){
+  console.log(result);
+}).catch(function(err){
+  console.log(err);
+});
+
+/**
 database.findUserByEmail('langwang@gmail.com').then(function(rows){
   console.log(rows[0].id);
 }).catch(function(err){

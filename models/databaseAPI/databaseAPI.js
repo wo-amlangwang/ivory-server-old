@@ -10,6 +10,7 @@ insertNewProfile
 findProfileById
 connectProfileWithUser
 findProfileIdByUserId
+upDateProfile
 **/
 module.exports=function(){
   var buildConnection = function(){
@@ -79,6 +80,30 @@ module.exports=function(){
           }
         });
         connection.end();
+      });
+      return ps;
+    },
+    upDateProfile : function(data){
+      var ps = new Promise(function(fullfill,reject){
+        if(data.id === undefined || data.id === null){
+          reject({'reason' : 'need id'});
+        }else{
+          var last_name = data.last_name;
+          var first_name = data.first_name;
+          var connection = buildConnection();
+          var query = 'UPDATE '+ base + '.profile SET first_name = ' + '\'' +
+                      first_name + '\' , last_name = ' + '\'' + last_name + '\'' +
+                      ' WHERE id = ' + '\'' + data.id + '\'';
+          console.log(query);
+          connection.query(query,function(err,result){
+            if(err){
+              reject(err);
+            }else{
+              fullfill(result);
+            }
+          });
+          connection.end();
+        }
       });
       return ps;
     },

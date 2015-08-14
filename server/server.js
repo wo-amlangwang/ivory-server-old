@@ -24,7 +24,7 @@ app.post('/signin',function(req,res){
   var password = req.body.password;
   database.findUserByEmail(email).then(function(rows){
     if(rows[0] != null){
-      res.status(201).send({'reason' : 'email been used'});
+      res.status(401).send({'reason' : 'email been used'});
     }else{
       hasher.makeHash(password).then(function(result){
         console.log(result);
@@ -45,7 +45,9 @@ app.post('/signin',function(req,res){
     console.log(err);
   });
 });
-
+app.get('/authentication',function(req,res){
+    res.sendfile('./server/login.html');
+});
 app.post('/authentication',function(req,res){
   var email = req.body.email;
   var password = req.body.password;
@@ -58,11 +60,12 @@ app.post('/authentication',function(req,res){
         console.log(err);
       });
     }).catch(function(result){
-      res.status(201).send({'reason' : 'incorrect username or password',
+      console.log(result);
+      res.status(401).send({'reason' : 'incorrect username or password',
                             'token' : null});
     });
   }).catch(function(err){
-    res.status(201).send({'reason' : 'incorrect username or password',
+    res.status(401).send({'reason' : 'incorrect username or password',
                           'token' : null});
   });
 });

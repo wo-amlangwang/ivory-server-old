@@ -17,6 +17,7 @@ module.exports=function(){
             var hashedpw = key.toString('hex');
             var revalue = {'hashed_pw' : hashedpw,
                            'pwsalt' : salt};
+          //  console.log(revalue);
             fulfill(revalue);
           }
         });
@@ -25,6 +26,7 @@ module.exports=function(){
     },
     comparePassword : function(password,passwordInBase){
       var ps = new Promise(function(fulfill,reject){
+        //console.log(passwordInBase);
         var salt = passwordInBase.pwsalt;
         crypto.pbkdf2(password,salt,1000,256,'sha256',function(err,key){
           if(err){
