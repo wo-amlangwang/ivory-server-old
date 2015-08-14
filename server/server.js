@@ -80,17 +80,18 @@ app.post('/user',function(req,res){
       var userid = decoded.id;
       database.findProfileIdByUserId(userid).then(function(result){
         console.log(result);
-        if(result[0] === null){
+        if(result[0] != null){
+          console.log('1');
+          database.findProfileById(result[0].profile_id).then(function(result){
+            res.status(200).send(result[0]);
+          });
+
+        }else {
           database.insertNewProfile().then(function(result){
             var pid = result.insertId;
             database.connectProfileWithUser(userid,pid).then(function(result){
               res.status(200).send({'first_name' : null,'last_name' : null});
             });
-          });
-        }else {
-          console.log('1');
-          database.findProfileById(result[0].profile_id).then(function(result){
-            res.status(200).send(result[0]);
           });
         }
       }).catch(function(err){
