@@ -71,13 +71,38 @@ app.post('/authentication',function(req,res){
 });
 
 app.get('/user',function(req,res){
-  res.send('After you sign in  you will be here');
+  var token = req.token;
+  if(token === undefined || token === null){
+    res.status(403).send({'reason' : 'need token'});
+  }else {
+    token.verToken(token).then(function(decoded){
+      var userid = decoded.id;
+      database.findProfileIdByUserId(userid).then(function(result){
+        if(result[0] === null){
+          database.insertNewProfile().then(function(result){
+            var pid = result.insertId;
+            database.connectProfileWithUser(userid,pid).then(function(result){
+              res.status(200).send({'first_name' : null,'last_name' : null});
+            });
+          });
+        }else {
+          database.findProfileById(result[0].profile_id).then(function(result){
+            res.status(200).send(result[0]);
+          });
+        }
+      }).catch(function(err){
+        console.log(err);
+      });
+    }).catch(function(err){
+      res.status(401).send({'reason' : 'bad token'});
+    });
+  }
 });
 
 app.post('/user',function(req,res){
   var token = req.token;
   if(token === undefined || token === null){
-    res.status(401).send({'reason' : 'need token'});
+    res.status(403).send({'reason' : 'need token'});
   }else{
     token.verToken(token).then(function(decoded){
       var userid = decoded.id;
