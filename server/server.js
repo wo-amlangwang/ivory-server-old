@@ -88,6 +88,7 @@ app.post('/user',function(req,res){
             });
           });
         }else {
+          console.log('1');
           database.findProfileById(result[0].profile_id).then(function(result){
             res.status(200).send(result[0]);
           });
