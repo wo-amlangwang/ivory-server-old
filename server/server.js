@@ -99,37 +99,7 @@ app.get('/user',function(req,res){
   }
 });
 
-app.post('/user',function(req,res){
-  var token = req.token;
-  if(token === undefined || token === null){
-    res.status(403).send({'reason' : 'need token'});
-  }else{
-    token.verToken(token).then(function(decoded){
-      var userid = decoded.id;
-      database.findProfileIdByUserId(userid).then(function(result){
-        if(result[0] === null)
-        {
-          database.insertNewProfile().then(function(result){
-            var pid = result.insertId;
-            database.connectProfileWithUser(userid,pid).then(function(result){
-              //TODO
-            }).catch(function(err){
-              console.log(err);
-            });
-          }).catch(function(err){
-            console.log(err);
-          });
-        }else {
-          //TODO
-        }
-      }).catch(function(err){
-        console.log(err);
-      });
-    }).catch(function(err){
-      res.send(401).send(err);
-    });
-  }
-});
+
 
 http.listen(port,function(err){
   if(err){
