@@ -79,6 +79,7 @@ app.post('/user',function(req,res){
     token.verToken(thistoken).then(function(decoded){
       var userid = decoded.id;
       database.findProfileIdByUserId(userid).then(function(result){
+        console.log(result);
         if(result[0] === null){
           database.insertNewProfile().then(function(result){
             var pid = result.insertId;
