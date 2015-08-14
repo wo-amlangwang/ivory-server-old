@@ -71,11 +71,11 @@ app.post('/authentication',function(req,res){
 });
 
 app.get('/user',function(req,res){
-  var token = req.token;
-  if(token === undefined || token === null){
+  var thistoken = req.token;
+  if(thistoken === undefined || thistoken === null){
     res.status(403).send({'reason' : 'need token'});
   }else {
-    token.verToken(token).then(function(decoded){
+    token.verToken(thistoken).then(function(decoded){
       var userid = decoded.id;
       database.findProfileIdByUserId(userid).then(function(result){
         if(result[0] === null){
