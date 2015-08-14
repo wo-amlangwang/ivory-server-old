@@ -70,7 +70,7 @@ app.post('/authentication',function(req,res){
   });
 });
 
-app.get('/user',function(req,res){
+app.post('/user',function(req,res){
   var thistoken = req.token;
   if(thistoken === undefined || thistoken === null){
     res.status(403).send({'reason' : 'need token'});
@@ -98,8 +98,6 @@ app.get('/user',function(req,res){
     });
   }
 });
-
-
 
 http.listen(port,function(err){
   if(err){
