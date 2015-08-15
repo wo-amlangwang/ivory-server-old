@@ -11,6 +11,7 @@ findProfileById
 connectProfileWithUser
 findProfileIdByUserId
 upDateProfile
+postNewPost
 **/
 module.exports=function(){
   var buildConnection = function(){
@@ -169,6 +170,16 @@ module.exports=function(){
             fullfill(result);
           }
         });
+        connection.end();
+      });
+      return ps;
+    },
+    postNewPost : function(data){
+      var ps = new Promise(function(fullfill,reject){
+        var connection = buildConnection();
+        var title = data.title;
+        var content = data.content;
+        var data = //TODO
         connection.end();
       });
       return ps;
