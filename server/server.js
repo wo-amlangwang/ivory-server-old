@@ -79,9 +79,9 @@ app.post('/user',function(req,res){
     token.verToken(thistoken).then(function(decoded){
       var userid = decoded.id;
       database.findProfileIdByUserId(userid).then(function(result){
-        console.log(result);
+        //console.log(result);
         if(result[0] != null){
-          console.log('1');
+          //console.log('1');
           database.findProfileById(result[0].profile_id).then(function(result){
             res.status(200).send(result[0]);
           });
