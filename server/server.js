@@ -71,7 +71,7 @@ app.post('/authentication',function(req,res){
 });
 
 app.post('/user',function(req,res){
-  var thistoken = req.body.token;
+  var thistoken = req.token;
   console.log(thistoken);
   if(thistoken === undefined || thistoken === null){
     res.status(403).send({'reason' : 'need token'});
@@ -101,6 +101,31 @@ app.post('/user',function(req,res){
       res.status(401).send({'reason' : 'bad token'});
     });
   }
+});
+
+app.post('/user/post',function(req,res){
+    var thistoken = req.token;
+    var content = req.body.content;
+    var title = req.body.title;
+    if(thistoken === null || thistoken === undefined){
+      res.status(403).send({'reason' : 'need token'});
+    }else {
+      token.verToken(thistoken).then(function(decoded){
+        var userid = decoded.id;
+        var data = {'title' : title, 'content' : content};
+        database.postNewPost(data).then(function(result){
+          database.connectPostWithUser(userid,result.insertId).then(function(){
+            res.status(200).send({'reason' : 'posted!'});
+          }).catch(function(err){
+            console.log(err);
+          });
+        }).catch(function(err){
+          console.log(err);
+        });
+      }).catch(function(err){
+        res.status(401).send({'reason' : 'bad token'});
+      });
+    }
 });
 
 http.listen(port,function(err){
