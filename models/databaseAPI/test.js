@@ -5,6 +5,24 @@ database.postNewPost({'title':'what computer science is','content' : 'what is cs
 }).catch(function(err){
   console.log(err);
 });
+/**
+for(var i = 0; i < 10 ; i++){
+  database.connectPostWithUser(2,i).catch(function(err){
+    console.log(err);
+  });
+}
+**/
+database.findPostIdByUserId(2).then(function (res) {
+  console.log(res);
+}).catch(function (err) {
+  console.log(err);
+});
+
+database.findUserIdByPostId(2).then(function(res){
+  console.log(res);
+}).catch(function (err) {
+  console.log(err);
+});
 
 /**
 database.upDateProfile({'id' : '32', 'first_name' : 'fangzhou', 'last_name' : 'lin'}).then(function(result){

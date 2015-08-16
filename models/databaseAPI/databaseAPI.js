@@ -13,6 +13,9 @@ connectProfileWithUser
 findProfileIdByUserId
 upDateProfile
 postNewPost
+connectPostWithUser
+findPostIdByUserId
+findUserIdByPostId
 **/
 module.exports=function(){
   var buildConnection = function(){
@@ -195,6 +198,55 @@ module.exports=function(){
             reject(err);
           }else {
             fullfill(result);
+          }
+        });
+        connection.end();
+      });
+      return ps;
+    },
+    connectPostWithUser : function(uid,poid){
+      var ps = new Promise(function(fullfill,reject){
+        var connection = buildConnection();
+        var query = 'INSERT INTO ' + base
+            + '.post_user_links (user_id,post_id) VALUES ('+'\''+ uid
+            +'\',\''+ poid +'\''+')';
+        connection.query(query,function(err,result,fields) {
+          if(err){
+            reject(err);
+          }else{
+            fullfill(result);
+          }
+        });
+        connection.end();
+      });
+      return ps;
+    },
+    findPostIdByUserId : function(user_id){
+      var ps = new Promise(function(fullfill,reject){
+        var connection = buildConnection();
+        var query = 'SELECT post_id FROM ' + base + '.post_user_links WHERE user_id LIKE' + ' \''
+                    + user_id + '\'';
+        connection.query(query,function(err,rows,field){
+          if(err){
+            reject(err);
+          }else {
+            fullfill(rows);
+          }
+        });
+        connection.end();
+      });
+      return ps;
+    },
+    findUserIdByPostId : function(post_id){
+      var ps = new Promise(function(fullfill, reject) {
+        var connection = buildConnection();
+        var query = 'SELECT user_id FROM ' + base + '.post_user_links WHERE post_id LIKE' + ' \''
+                    + post_id + '\'';
+        connection.query(query,function(err,rows,field){
+          if(err){
+            reject(err);
+          }else {
+            fullfill(rows);
           }
         });
         connection.end();
