@@ -204,6 +204,23 @@ module.exports=function(){
       });
       return ps;
     },
+    findPostById : function(id){
+      var ps = new Promise(function(fullfill,reject){
+        var connection = buildConnection();
+        var query = 'SELECT * FROM ' + base + '.post WHERE id LIKE' + ' \''
+                    + id + '\'';
+        connection.query(query,function(err,rows,fields){
+          if(err){
+            reject(err);
+          }else{
+            fullfill(rows);
+          }
+        });
+        connection.end();
+
+      });
+      return ps;
+    },
     connectPostWithUser : function(uid,poid){
       var ps = new Promise(function(fullfill,reject){
         var connection = buildConnection();
