@@ -1,5 +1,9 @@
 var database = require('./databaseAPI.js')();
+var poster = require('./upDatePoster.js')();
+//poster.upDatePostTitle({'id' : 32,'title' : 'wtf','content' : '123+456 = 579'});
 
+database.upDatePostContent({'id' : 152,'title' : 'wtf','content' : '123+456 = 579'});
+/**
 database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
   console.log(result);
 }).catch(function(err){
@@ -12,6 +16,7 @@ for(var i = 0; i < 10 ; i++){
   });
 }
 **/
+/**
 database.findPostIdByUserId(2).then(function (res) {
   console.log(res);
 }).catch(function (err) {

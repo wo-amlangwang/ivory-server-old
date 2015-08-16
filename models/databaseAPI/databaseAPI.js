@@ -252,6 +252,60 @@ module.exports=function(){
         connection.end();
       });
       return ps;
+    },
+    upDatePostContent : function(data){
+      var ps = new Promise(function(fullfill,reject){
+        var connection = buildConnection();
+        if(data.id === undefined){
+          reject({'reason' : 'need id'});
+        }else{
+          var post_id = data.id;
+          if(data.content === undefined){
+            reject({'reason' : ' need content'});
+          }else {
+            var date = time.getCurrentTime();
+            var query = 'UPDATE ' + base + '.post SET content = ' + '\'' + data.content
+                        + '\', last_updata_date = \'' + date + '\''
+                        + 'WHERE id = ' + '\'' + post_id + '\'';
+            connection.query(query,function (err,result) {
+              if(err){
+                reject(err);
+              }else {
+                fullfill(result);
+              }
+            });
+          }
+        }
+        connection.end();
+      });
+      return ps;
+    },
+    upDatePostTitle : function(data){
+      var ps = new Promise(function(fullfill,reject){
+        var connection = buildConnection();
+        if(data.id === undefined){
+          reject({'reason' : 'need id'});
+        }else{
+          var post_id = data.id;
+          if(data.title === undefined){
+            reject({'reason' : ' need title'});
+          }else {
+            var date = time.getCurrentTime();
+            var query = 'UPDATE ' + base + '.post SET title = ' + '\'' + data.title
+                        + '\', last_updata_date = \'' + date + '\''
+                        + 'WHERE id = ' + '\'' + post_id + '\'';
+            connection.query(query,function (err,result) {
+              if(err){
+                reject(err);
+              }else {
+                fullfill(result);
+              }
+            });
+          }
+        }
+        connection.end();
+      });
+      return ps;
     }
   }
 }
