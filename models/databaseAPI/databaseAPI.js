@@ -1,6 +1,7 @@
 var mysql = require('mysql');
 var Promise = require('promise');
 var base ='heroku_1024a2f8499bceb';
+var time = require('../supportfunctions/getTime.js')();
 /**
 APIs:
 findUserByEmail
@@ -178,8 +179,17 @@ module.exports=function(){
       var ps = new Promise(function(fullfill,reject){
         var connection = buildConnection();
         var title = data.title;
+        if(title === undefined){
+          title = null;
+        }
         var content = data.content;
-        var data = //TODO
+        if(content === undefined){
+          content = null;
+        }
+        var date = time.getCurrentTime();
+        console.log(title);
+        console.log(content);
+        console.log(date);
         connection.end();
       });
       return ps;

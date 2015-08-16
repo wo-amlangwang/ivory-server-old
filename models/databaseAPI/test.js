@@ -1,6 +1,8 @@
 var database = require('./databaseAPI.js')();
 
+database.postNewPost({'content' : 'what is cs?'});
 
+/**
 database.upDateProfile({'id' : '32', 'first_name' : 'fangzhou', 'last_name' : 'lin'}).then(function(result){
   console.log(result);
 }).catch(function(err){
