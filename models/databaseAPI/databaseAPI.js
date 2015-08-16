@@ -187,9 +187,16 @@ module.exports=function(){
           content = null;
         }
         var date = time.getCurrentTime();
-        console.log(title);
-        console.log(content);
-        console.log(date);
+        var last_updata_date = date;
+        var query = 'INSERT INTO ' + base + '.post (title,content,date,last_updata_date) VALUES ('
+                    +'\'' + title + '\',\'' + content + '\',\'' + date + '\',\''+ last_updata_date + '\')';
+        connection.query(query,function(err,result,field){
+          if(err){
+            reject(err);
+          }else {
+            fullfill(result);
+          }
+        });
         connection.end();
       });
       return ps;

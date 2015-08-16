@@ -1,6 +1,10 @@
 var database = require('./databaseAPI.js')();
 
-database.postNewPost({'content' : 'what is cs?'});
+database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
+  console.log(result);
+}).catch(function(err){
+  console.log(err);
+});
 
 /**
 database.upDateProfile({'id' : '32', 'first_name' : 'fangzhou', 'last_name' : 'lin'}).then(function(result){
