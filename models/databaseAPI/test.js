@@ -1,8 +1,9 @@
 var database = require('./databaseAPI.js')();
-var poster = require('./upDatePoster.js')();
+var poster = require('./getAllUserspost.js')();
+poster.getAllUserPost(2);
 //poster.upDatePostTitle({'id' : 32,'title' : 'wtf','content' : '123+456 = 579'});
 
-database.upDatePostContent({'id' : 152,'title' : 'wtf','content' : '123+456 = 579'});
+//database.upDatePostContent({'id' : 152,'title' : 'wtf','content' : '123+456 = 579'});
 /**
 database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
   console.log(result);

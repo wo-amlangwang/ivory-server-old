@@ -104,33 +104,6 @@ app.post('/user',function(req,res){
     });
   }
 });
-app.get('/user/post',function(req,res){
-  var thistoken = req.token;
-  if(thistoken === null || thistoken = undefined){
-    res.status(403).send({'reason' : 'need token'});
-  }else{
-    token.verToken(thistoken).then(function(decoded){
-      database.findPostIdByUserId(decoded.id).then(function(result){
-        var numOfPost = result.length;
-        var promises[numOfPost];
-        var post[numOfPost];
-        for(var i = 0; i < numOfPost; i++){
-          promises[i] = database.findPostById(result[i]).then(function(rows){
-            post[i] = rows[0];
-          });
-        }
-        Q.all(promises).done(function(){
-          res.status(200).send({'reason' : 'ok',
-                                'posts' : post});
-        });
-      }).catch(function(err){
-        console.log(err);
-      });
-    }).catch(function(err){
-      res.status(401).send({'reason' : 'bad token'});
-    });
-  }
-});
 app.post('/user/post',function(req,res){
     var thistoken = req.token;
     var content = req.body.content;

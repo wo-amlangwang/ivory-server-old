@@ -22,6 +22,7 @@
     "jsonschema": "^1.0.2",
     "jsonwebtoken": "^5.0.4",
     "mysql": "^2.8.0",
-    "promise": "^7.0.4"
+    "promise": "^7.0.4",
+    "q": "^1.4.1"
   }
 }
