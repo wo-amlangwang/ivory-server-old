@@ -1,6 +1,11 @@
 var database = require('./databaseAPI.js')();
 var poster = require('./getAllUserspost.js')();
-poster.getAllUserPost(2);
+var singleton = require('./singleTonexample.js');
+var test2 = require('./test2.js');
+singleton.connection = 1234;
+console.log(singleton.connection);
+test2.printsomething();
+//poster.getAllUserPost(2);
 //poster.upDatePostTitle({'id' : 32,'title' : 'wtf','content' : '123+456 = 579'});
 
 //database.upDatePostContent({'id' : 152,'title' : 'wtf','content' : '123+456 = 579'});
