@@ -30,6 +30,7 @@ module.exports = {
         }else {
           resolve(result);
         }
+      });
     });
     return ps;
   }
