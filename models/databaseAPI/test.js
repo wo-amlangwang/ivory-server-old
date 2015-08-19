@@ -11,6 +11,10 @@ var database = require('./databaseAPI_main.js');
 //test2.printsomething();
 //poster.getAllUserPost(2);
 //poster.upDatePostTitle({'id' : 32,'title' : 'wtf','content' : '123+456 = 579'});
+database.poster.upDatePost({'id' : 232,'title' : 'whatabout','content' : 'math'}).done(function (argument) {
+  console.log(argument);
+});
+/**
 for(var i = 102; i < 232; i += 10){
   database.poster.upDatePostContent({'id' : i,'title' : 'whatabout','content' : 'math'})
   .done(function (argument) {

@@ -3,6 +3,9 @@ var Promise = require('promise');
 var base ='heroku_1024a2f8499bceb';
 var time = require('../supportfunctions/getTime.js');
 var sqlpool = require('./sqlpool.js');
+var Q = require('q');
+//var self = this;
+//var thisfun = require('./databaseAPI_Post.js');
 module.exports = {
   postNewPost : function(data){
     var ps = new Promise(function(resolve, reject) {
@@ -91,9 +94,41 @@ module.exports = {
       }
     });
     return ps;
-  }
+  }/**,TODO Fix this !!!
+  upDatePost : function(data){
+    var ps = new Promise(function(resolve, reject) {
+      var revalue = [];
+      var promises = [];
+      promises[0] = self.upDatePostTitle(data)
+      .then(function(result){
+        var message = {'result' : 'title update successfully extra informations followed',
+                       'reason' : result}
+        revalue.push(massger);
+      })
+      .catch(function(err){
+        var massger = {'result' : 'your title may not change reason followed',
+                       'reason' : err}
+        revalue.push(massger);
+      });
+      promises[1] = self.upDatePostContent(data)
+      .then(function(result){
+        var message = {'result' : 'content update successfully extra informations followed',
+                       'reason' : result}
+        revalue.push(massger);
+      })
+      .catch(function(err){
+        var massger = {'result' : 'your content may not change reason followed',
+                       'reason' : err}
+        revalue.push(massger);
+      });
+      Q.all(promises).done(function(){
+        resolve(revalue);
+      });
+    });
+    return ps;
+  }**/
 }
-/*
+/* old databaseAPI for post is here:
 var ps = new Promise(function(fullfill,reject){
   var connection = buildConnection();
   if(data.id === undefined){
