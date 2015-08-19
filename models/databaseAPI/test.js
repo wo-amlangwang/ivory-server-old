@@ -11,8 +11,16 @@ var database = require('./databaseAPI_main.js');
 //test2.printsomething();
 //poster.getAllUserPost(2);
 //poster.upDatePostTitle({'id' : 32,'title' : 'wtf','content' : '123+456 = 579'});
-
-//database.upDatePostContent({'id' : 152,'title' : 'wtf','content' : '123+456 = 579'});
+for(var i = 102; i < 232; i += 10){
+  database.poster.upDatePostContent({'id' : i,'title' : 'whatabout','content' : 'math'})
+  .done(function (argument) {
+    console.log(argument);
+  });
+  database.poster.upDatePostTitle({'id' : i,'title' : 'whatabout','content' : 'math'})
+  .done(function (argument) {
+    console.log(argument);
+  });
+}
 /**
 database.poster.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
   console.log(result);
