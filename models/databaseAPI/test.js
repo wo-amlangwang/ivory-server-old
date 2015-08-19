@@ -11,7 +11,7 @@ var database = require('./databaseAPI_main.js');
 //test2.printsomething();
 //poster.getAllUserPost(2);
 //poster.upDatePostTitle({'id' : 32,'title' : 'wtf','content' : '123+456 = 579'});
-database.poster.upDatePost({'id' : 232,'title' : 'whatabout','content' : 'math'}).done(function (argument) {
+database.poster.upDatePost({'id' : 232,'title' : '123','content' : '321'}).done(function (argument) {
   console.log(argument);
 });
 /**
