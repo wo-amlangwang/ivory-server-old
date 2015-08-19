@@ -38,7 +38,7 @@ module.exports = {
       var query = 'INSERT INTO ' + base
           + '.user (email,hashed_pw,pwsalt) VALUES ('+'\''+ data.email
           +'\',\''+ data.hashed_pw +'\',\''+ data.pwsalt +'\')';
-      connection.query(query,function(err,result,fields){
+      sqlpool.pool.query(query,function(err,result,fields){
         if(err){
           reject(err);
         }else{
