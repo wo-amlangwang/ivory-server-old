@@ -1,14 +1,49 @@
 var mysql = require('mysql');
 var Promise = require('promise');
 var base ='heroku_1024a2f8499bceb';
-var shareInstance = require('./singleTon.js');
+var time = require('../supportfunctions/getTime.js');
+var sqlpool = require('./sqlpool.js');
 module.exports = {
   postNewPost : function(data){
     var ps = new Promise(function(resolve, reject) {
-
+      var title = data.title;
+      if(title === undefined){
+        title = null;
+      }
+      var content = data.content;
+      if(content === undefined){
+        content = null;
+      }
+      var currentTime = time.getCurrentTime();
+      var last_updata_time = currentTime;
+      var query = 'INSERT INTO ' + base + '.post (title,content,date,last_updata_date) VALUES ('
+                  +'\'' + title + '\',\'' + content + '\',\'' + currentTime + '\',\''+ last_updata_time + '\')';
+      sqlpool.pool.query(query,function (err,result,field) {
+        if(err){
+          reject(err);
+        }else {
+          resolve(result);
+        }
+      });
+    });
+    return ps;
+  },
+  findPostById : function(id){
+    var ps = new new Promise(function(resolve, reject) {
+      var query = 'SELECT * FROM ' + base + '.post WHERE id LIKE' + ' \''
+                  + id + '\'';
+      sqlpool.pool.query(query,function(err,result,field){
+        if(err){
+          reject(err);
+        }else{
+          resolve(result);
+        }
+      });
     });
     return ps;
   }
+
+
 }
 
 /*

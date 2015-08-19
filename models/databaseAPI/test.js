@@ -1,15 +1,40 @@
-var database = require('./databaseAPI.js')();
-var poster = require('./getAllUserspost.js')();
-var singleton = require('./singleTonexample.js');
-var test2 = require('./test2.js');
-singleton.connection = 1234;
-console.log(singleton.connection);
-test2.printsomething();
+var database = require('./databaseAPI_main.js');
+
+
+
+//var database = require('./databaseAPI.js')();
+//var poster = require('./getAllUserspost.js')();
+//var singleton = require('./singleTonexample.js');
+//var test2 = require('./test2.js');
+//singleton.connection = 1234;
+//console.log(singleton.connection);
+//test2.printsomething();
 //poster.getAllUserPost(2);
 //poster.upDatePostTitle({'id' : 32,'title' : 'wtf','content' : '123+456 = 579'});
 
 //database.upDatePostContent({'id' : 152,'title' : 'wtf','content' : '123+456 = 579'});
 /**
+database.poster.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
+  console.log(result);
+}).catch(function(err){
+  console.log(err);
+});
+/**
+database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
+  console.log(result);
+}).catch(function(err){
+  console.log(err);
+});
+database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
+  console.log(result);
+}).catch(function(err){
+  console.log(err);
+});
+database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
+  console.log(result);
+}).catch(function(err){
+  console.log(err);
+});
 database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
   console.log(result);
 }).catch(function(err){
@@ -23,13 +48,13 @@ for(var i = 0; i < 10 ; i++){
 }
 **/
 /**
-database.findPostIdByUserId(2).then(function (res) {
+database.posterUserLinks.findPostIdByUserId(2).then(function (res) {
   console.log(res);
 }).catch(function (err) {
   console.log(err);
 });
 
-database.findUserIdByPostId(2).then(function(res){
+database.posterUserLinks.findUserIdByPostId(2).then(function(res){
   console.log(res);
 }).catch(function (err) {
   console.log(err);

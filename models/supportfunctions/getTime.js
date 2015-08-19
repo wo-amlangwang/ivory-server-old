@@ -1,6 +1,5 @@
-module.exports = function(){
+module.exports = {
   //this function will return the time in format YYYY:MM:DD:HH:MM:SS
-  return{
     getCurrentTime : function(){
       var date = new Date();
       var hour = date.getHours();
@@ -22,5 +21,5 @@ module.exports = function(){
 
       return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
     }
-  }
+
 }
