@@ -82,6 +82,16 @@ app.post('/authentication',function(request,response) {
     response.status(503).send({'reason' : err});
   });
 });
+
+app.get('/user',function(request,response) {
+});
+app.post('/user',function(request,response) {
+});
+
+app.get('/user/post',function(request,response) {
+});
+app.get('/user/post/:poid',function(request,response) {
+});
 /**
 app.post('/user',function(req,res){
   var thistoken = req.token;
