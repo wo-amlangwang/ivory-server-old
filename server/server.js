@@ -23,33 +23,38 @@ route table :
 /authentication : get return a login page
                   post will check the information of the user
 */
+app.get('/signin',function(request,response) {
+  response.sendFile(__dirname + '/signin.html');
+});
 app.post('/signin', function(request,response){
-  var email = req.body.email;
-  var password = req.body.password;
-  database.user.findUserByEmail(email).then(function(result){
-    if(result[0] != null){
-      response.status(409).send({'reason' : 'email excist'});
+  var email = request.body.email;
+  var password = request.body.password;
+  database.user.findUserByEmail(email).then(function(rows) {
+    if(rows[0] != null){
+      response.status(409).send({'reason' : 'user excist'});
     }else{
-      hasher.makeHash(password).then(function(result){
-        var data = {'email' : email,
-                    'hashed_pw' : result.hashed_pw,
-                    'pwsalt' : result.pwsalt}
-        database.user.insertNewUser(data).then(function(result){
-          token.tokenmaker({'id' : result.insertId}).then(function(thistoken) {
-            response.status(200).send({'reason' : 'created',
-                                       'token' : thistoken});
-          })
-        }).catch(function(err) {
-          response.status(503).send('reason' : err);
+      hasher.makeHash(password).then(function(result) {
+        var user_info = {'email' : email,
+                         'hashed_pw' : result.hashed_pw,
+                         'pwsalt' : result.pwsalt};
+        database.user.insertNewUser(user_info).then(function(result){
+          token.makeToken({'id' : result.insertId}).then(function(thistoken){
+            response.status(200).send({'reason' : 'ok',
+                                       'token' : thistoken.token});
+          }).catch(function(err){
+            response.status(503).send({'reason' : err});
+          });
         });
-      }).catch(function(err) {
-        response.status(503).send('reason' : err);
+      }).catch(function(err){
+        response.status(503).send({'reason' : err});
       });
     }
-  }).catch(function(err) {
-    response.status(503).send('reason' : err);
+  }).catch(function(err){
+    response.status(503).send({'reason' : err});
   });
+
 });
+
 /**
 app.get('/signin',function(req,res){
   res.sendfile('./server/signin.html');
