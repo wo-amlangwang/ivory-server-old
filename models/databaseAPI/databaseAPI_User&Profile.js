@@ -23,7 +23,7 @@ module.exports = {
     var ps =new Promise(function(resolve, reject) {
       var query = 'SELECT profile_id FROM ' + base +
                   '.profile_user_links WHERE user_id LIKE' + ' \''
-                  + user_id + '\'';
+                  + uid + '\'';
       sqlpool.pool.query(query,function(err,result,fields){
         if(err){
           reject(err);

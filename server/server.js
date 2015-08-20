@@ -1,4 +1,4 @@
-var database = require('../models/databaseAPI/databaseAPI.js')();
+var database = require('../models/databaseAPI/databaseAPI_main.js');
 var hasher = require('../models/passwordhasher/passwordhasher.js')();
 var token = require('../models/tokenmaker/tokenmaker.js')();
 var express = require('express');
@@ -15,16 +15,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/',function(req,res){
   res.send('welcome,ivory-server,test api in /signin');
 });
+/*
+route table :
+/ : homepage(only get allowed)
+/signin : get return a signin page
+          post build a new user
+/authentication : get return a login page
+                  post will check the information of the user
+*/
 /**
-  signin block
-**/
 app.get('/signin',function(req,res){
   res.sendfile('./server/signin.html');
 });
 app.post('/signin',function(req,res){
   var email = req.body.email;
   var password = req.body.password;
-  database.findUserByEmail(email).then(function(rows){
+  database.user.findUserByEmail(email).then(function(rows){
     if(rows[0] != null){
       res.status(401).send({'reason' : 'email been used'});
     }else{
@@ -33,7 +39,7 @@ app.post('/signin',function(req,res){
         var user_info = {'email' : email,
                          'hashed_pw' : result.hashed_pw,
                          'pwsalt' : result.pwsalt};
-        database.insertNewUser(user_info).then(function(result){
+        database.user.insertNewUser(user_info).then(function(result){
           token.makeToken({'id' : result.insertId}).then(function(thistoken){
             res.status(200).send({'reason' : 'ok',
                                   'token' : thistoken.token});
@@ -127,7 +133,7 @@ app.post('/user/post',function(req,res){
         res.status(401).send({'reason' : 'bad token'});
       });
     }
-});
+});**/
 
 http.listen(port,function(err){
   if(err){

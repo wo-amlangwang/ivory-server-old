@@ -27,7 +27,7 @@ module.exports = {
         if(err){
           reject(err);
         }else{
-          fullfill(rows);
+          resolve(rows);
         }
       });
     });

@@ -1,123 +1,77 @@
 var database = require('./databaseAPI_main.js');
 
+/*
+poster : require('./databaseAPI_Post.js'),
+posterUserLinks : require('./databaseAPI_User&Post.js'),
+user : require('./databaseAPI_User.js'),
+profile : require('./databaseAPI_Profile.js'),
+userProfileLinks : require('./databaseAPI_User&Profile.js')
+*/
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
 
-
-//var database = require('./databaseAPI.js')();
-//var poster = require('./getAllUserspost.js')();
-//var singleton = require('./singleTonexample.js');
-//var test2 = require('./test2.js');
-//singleton.connection = 1234;
-//console.log(singleton.connection);
-//test2.printsomething();
-//poster.getAllUserPost(2);
-//poster.upDatePostTitle({'id' : 32,'title' : 'wtf','content' : '123+456 = 579'});
-database.poster.upDatePost({'id' : 232,'title' : '123','content' : '321'}).done(function (argument) {
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
+  console.log(argument);
+});
+database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
   console.log(argument);
 });
 /**
-for(var i = 102; i < 232; i += 10){
-  database.poster.upDatePostContent({'id' : i,'title' : 'whatabout','content' : 'math'})
-  .done(function (argument) {
-    console.log(argument);
+database.userProfileLinks.connectProfileWithUser(789,564);
+database.userProfileLinks.connectProfileWithUser(789,231);
+database.userProfileLinks.connectProfileWithUser(789,456);
+
+/*
+database.user.insertNewUser({'email' : 'l1@qq.com','hashed_pw' : '1234',
+                             'pwsalt' : '321'}).done(function(message){
+                               console.log(message);
+
+                                database.user.findUserByEmail('l1@qq.com').done(function(message){
+                                  console.log(message);
+                                  database.user.findUserById(2212).done(function(anothermessage){
+                                    console.log(anothermessage);
+                                  });
+                                });
+});
+database.profile.insertNewProfile().done(function(message){
+  console.log(message);
+  var id = message.insertId;
+  database.profile.findProfileById(message.insertId).done(function(info){
+    console.log(info);
+    database.profile.upDateProfile({'id' : id, 'first_name' : 'langwang','last_name' : '123'})
+    .done(function (argument) {
+      database.profile.findProfileById(id).done(function (argument) {
+        console.log(argument);
+      });
+    });
   });
-  database.poster.upDatePostTitle({'id' : i,'title' : 'whatabout','content' : 'math'})
-  .done(function (argument) {
-    console.log(argument);
-  });
-}
-/**
-database.poster.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
 });
-/**
-database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});
-database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});
-database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});
-database.postNewPost({'title':'what computer science is','content' : 'what is cs?'}).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});
-/**
-for(var i = 0; i < 10 ; i++){
-  database.connectPostWithUser(2,i).catch(function(err){
-    console.log(err);
-  });
-}
-**/
-/**
-database.posterUserLinks.findPostIdByUserId(2).then(function (res) {
-  console.log(res);
-}).catch(function (err) {
-  console.log(err);
-});
-
-database.posterUserLinks.findUserIdByPostId(2).then(function(res){
-  console.log(res);
-}).catch(function (err) {
-  console.log(err);
-});
-
-/**
-database.upDateProfile({'id' : '32', 'first_name' : 'fangzhou', 'last_name' : 'lin'}).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});
-
-/**
-database.findUserByEmail('langwang@gmail.com').then(function(rows){
-  console.log(rows[0].id);
-}).catch(function(err){
-  console.log(err);
-});
-
-/**
-database.findProfileIdByUserId(1632).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});
-**/
-/**
-database.insertNewUser({'email' : 'langwang@gmail.com','hasehed_pw' : '12345','pwsalt':'321'}).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});
-database.insertNewProfile().then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});**/
-/**
-database.findUserById(1422).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});
-
-database.findProfileById(102).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});
-database.connectProfileWithUser(1,2).then(function(result){
-  console.log(result);
-}).catch(function(err){
-  console.log(err);
-});**/
+*/
