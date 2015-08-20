@@ -7,7 +7,6 @@ var app = express();
 var Promise = require('promise');
 var Q = require('q');
 var http = require('http').Server(app);
-
 var port = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,7 +23,7 @@ route table :
                   post will check the information of the user
 */
 app.get('/signin',function(request,response) {
-  response.sendFile(__dirname + '/signin.html');
+  response.sendFile(__dirname + '/htmls/signin.html');
 });
 app.post('/signin', function(request,response){
   var email = request.body.email;
@@ -55,61 +54,34 @@ app.post('/signin', function(request,response){
 
 });
 
-/**
-app.get('/signin',function(req,res){
-  res.sendfile('./server/signin.html');
+app.get('/authentication',function(request,response) {
+  response.sendFile(__dirname + '/htmls/login.html');
 });
-app.post('/signin',function(req,res){
-  var email = req.body.email;
-  var password = req.body.password;
-  database.user.findUserByEmail(email).then(function(rows){
+app.post('/authentication',function(request,response) {
+  var email = request.body.email;
+  var password = request.body.password;
+  database.user.findUserByEmail(email).then(function(rows) {
     if(rows[0] != null){
-      res.status(401).send({'reason' : 'email been used'});
-    }else{
-      hasher.makeHash(password).then(function(result){
-        console.log(result);
-        var user_info = {'email' : email,
-                         'hashed_pw' : result.hashed_pw,
-                         'pwsalt' : result.pwsalt};
-        database.user.insertNewUser(user_info).then(function(result){
-          token.makeToken({'id' : result.insertId}).then(function(thistoken){
-            res.status(200).send({'reason' : 'ok',
-                                  'token' : thistoken.token});
-          });
+      hasher.comparePassword(password,rows[0]).then(function(result) {
+        token.makeToken({'id' : rows[0].id}).then(function(thistoken){
+          response.status(200).send({'reason' : 'ok',
+                                'token' : thistoken.token});
+        }).catch(function(err){
+          response.status(503).send({'reason' : err});
         });
-      }).catch(function(err){
-        console.log(err);
+      }).catch(function(err) {
+        response.status(401).send({'reason' : 'incorrect username or password',
+                              'token' : null});
       });
-    }
-  }).catch(function(err){
-    console.log(err);
-  });
-});
-app.get('/authentication',function(req,res){
-    res.sendfile('./server/login.html');
-});
-app.post('/authentication',function(req,res){
-  var email = req.body.email;
-  var password = req.body.password;
-  database.findUserByEmail(email).then(function(rows){
-    hasher.comparePassword(password,rows[0]).then(function(result){
-      token.makeToken({'id' : rows[0].id}).then(function(thistoken){
-        res.status(200).send({'reason' : 'ok',
-                              'token' : thistoken.token});
-      }).catch(function(err){
-        console.log(err);
-      });
-    }).catch(function(result){
-      console.log(result);
-      res.status(401).send({'reason' : 'incorrect username or password',
+    }else {
+      response.status(401).send({'reason' : 'incorrect username or password',
                             'token' : null});
-    });
-  }).catch(function(err){
-    res.status(401).send({'reason' : 'incorrect username or password',
-                          'token' : null});
+    }
+  }).catch(function(err) {
+    response.status(503).send({'reason' : err});
   });
 });
-
+/**
 app.post('/user',function(req,res){
   var thistoken = req.token;
   console.log(thistoken);
