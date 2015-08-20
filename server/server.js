@@ -1,12 +1,13 @@
-var database = require('../models/databaseAPI/databaseAPI_main.js');
-var hasher = require('../models/passwordhasher/passwordhasher.js')();
-var token = require('../models/tokenmaker/tokenmaker.js')();
+var database = require('../modules/databaseAPI/databaseAPI_main.js');
+var hasher = require('../modules/passwordhasher/passwordhasher.js')();
+var token = require('../modules/tokenmaker/tokenmaker.js')();
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var Promise = require('promise');
 var Q = require('q');
 var http = require('http').Server(app);
+
 var port = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
