@@ -18,8 +18,9 @@ module.exports = {
         }
       });
     });
+    return ps;
   },
-  findPostIdByUserId : function(uid){
+  findProfileIdByUserId : function(uid){
     var ps =new Promise(function(resolve, reject) {
       var query = 'SELECT profile_id FROM ' + base +
                   '.profile_user_links WHERE user_id LIKE' + ' \''

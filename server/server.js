@@ -84,6 +84,39 @@ app.post('/authentication',function(request,response) {
 });
 
 app.get('/user',function(request,response) {
+  var thistoken = request.body.token || request.query.token
+              || request.headers['x-access-token'];
+  if(thistoken === undefined || thistoken === null){
+    response.status(401).send({'reason' : 'need token'});
+  }else{
+    token.verToken(thistoken).then(function(decoded){
+      var userid = decoded.id;
+      console.log(1);
+      database.userProfileLinks.findProfileIdByUserId(userid).then(function(rows){
+        if(rows[0] != null){
+          console.log(2);
+          database.profile.findProfileById(rows[0].profile_id).then(function(rows){
+            response.status(200).send(rows[0]);
+          });
+        }else {
+          console.log(3);
+          database.profile.insertNewProfile().then(function(result) {
+            var pid = result.insertId;
+            database.userProfileLinks.connectProfileWithUser(userid,pid).then(function(argument) {
+              console.log(4);
+              response.status(200).send({'first_name' : null,'last_name' : null});
+            }).done(function (argument) {
+              console.log('done');
+            });
+          });
+        }
+      }).catch(function(err){
+        response.status(503).send({'reason' : err});
+      });
+    }).catch(function(err){
+      response.status(401).send({'reason' : err});
+    });
+  }
 });
 app.post('/user',function(request,response) {
 });

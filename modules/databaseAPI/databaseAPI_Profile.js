@@ -21,6 +21,7 @@ module.exports = {
   },
   findProfileById : function(id){
     var ps = new Promise(function(resolve, reject) {
+      console.log(id);
       var query = 'SELECT * FROM ' + base + '.profile WHERE id LIKE' + ' \''
                   + id + '\'';
       sqlpool.pool.query(query,function(err,rows,fields){

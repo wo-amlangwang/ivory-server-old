@@ -7,6 +7,10 @@ user : require('./databaseAPI_User.js'),
 profile : require('./databaseAPI_Profile.js'),
 userProfileLinks : require('./databaseAPI_User&Profile.js')
 */
+database.userProfileLinks.connectProfileWithUser(24,68).then(function(){
+  console.log('success');
+});
+/**
 database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
   console.log(argument);
 });
