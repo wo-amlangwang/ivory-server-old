@@ -119,7 +119,19 @@ app.post('/user',function(request,response) {
     response.status(401).send({'reason' : 'need token'});
   }else {
     token.verToken(thistoken).then(function(decoded) {
-      //TODO
+      var userid = decoded.id;
+      database.userProfileLinks.findProfileIdByUserId(userid).then(function(rows){
+        if(rows[0] != null){
+
+        }else {
+          database.profile.insertNewProfile().then(function(result) {
+            var pid = result.insertId;
+            database.userProfileLinks.connectProfileWithUser(userid,pid).then(function(argument) {
+              var data = {'id'}// TODO
+            }).catch();
+          }).catch();
+        }
+      }).catch();
     }).catch(function(err) {
       response.status(401).send({'reason' : err});
     });

@@ -35,21 +35,40 @@ module.exports = {
     return ps;
   },
   upDateProfile : function(data){
+    //console.log(data);
     var ps = new Promise(function(resolve, reject) {
       if(data.id === undefined || data.id === null){
         reject({'reason' : 'need id'});
       }else{
-        var last_name = data.last_name;
-        var first_name = data.first_name;
-        var query = 'UPDATE '+ base + '.profile SET first_name = ' + '\'' +
-                    first_name + '\' , last_name = ' + '\'' + last_name + '\'' +
-                    ' WHERE id = ' + '\'' + data.id + '\'';
-        sqlpool.pool.query(query,function(err,result){
-          if(err){
-            reject(err);
-          }else{
-            resolve(result);
-          }
+        var last_name;
+        var first_name;
+        var inps = new Promise(function(resolve, reject) {
+          var query = 'SELECT * FROM ' + base + '.profile WHERE id LIKE' + ' \''
+                      + data.id + '\'';
+          sqlpool.pool.query(query,function(err,rows,fields) {
+            last_name = data.last_name || rows[0].last_name;
+            first_name = data.first_name || rows[0].first_name;
+            if(err){
+              reject(err);
+            }else {
+              resolve();
+            }
+          });
+        });
+        //console.log(3231);
+        inps.then(function() {
+          var query = 'UPDATE '+ base + '.profile SET first_name = ' + '\'' +
+                      first_name + '\' , last_name = ' + '\'' + last_name + '\'' +
+                      ' WHERE id = ' + '\'' + data.id + '\'';
+          sqlpool.pool.query(query,function(err,result){
+            if(err){
+              reject(err);
+            }else{
+              resolve(result);
+            }
+          });
+        }).catch(function(err) {
+          reject(err)
         });
       }
     });

@@ -7,8 +7,11 @@ user : require('./databaseAPI_User.js'),
 profile : require('./databaseAPI_Profile.js'),
 userProfileLinks : require('./databaseAPI_User&Profile.js')
 */
-database.userProfileLinks.connectProfileWithUser(24,68).then(function(){
+//console.log(123);
+database.profile.upDateProfile({'id' : '152','first_name' : 'undefined','last_name' : undefined}).then(function(){
   console.log('success');
+}).catch(function(err) {
+  console.log(err);
 });
 /**
 database.userProfileLinks.findPostIdByUserId(789).done(function (argument) {
