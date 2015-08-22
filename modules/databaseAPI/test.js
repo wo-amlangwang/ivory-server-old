@@ -8,7 +8,7 @@ profile : require('./databaseAPI_Profile.js'),
 userProfileLinks : require('./databaseAPI_User&Profile.js')
 */
 //console.log(123);
-database.profile.upDateProfile({'id' : '152','first_name' : 'undefined','last_name' : undefined}).then(function(){
+database.profile.upDateProfile({'id' : '152','first_name' : 'what','last_name' : '1234'}).then(function(){
   console.log('success');
 }).catch(function(err) {
   console.log(err);

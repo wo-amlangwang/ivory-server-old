@@ -122,12 +122,26 @@ app.post('/user',function(request,response) {
       var userid = decoded.id;
       database.userProfileLinks.findProfileIdByUserId(userid).then(function(rows){
         if(rows[0] != null){
-
+          var data = {'id' : rows[0].profile_id,
+                      'last_name' : request.body.last_name,
+                      'first_name' : request.body.first_name};
+          database.profile.upDateProfile(data).then(function() {
+            response.status(200).send({'reason' : 'ok'});
+          }).catch(function(err) {
+            response.status(503).send({'reason' : err});
+          });
         }else {
           database.profile.insertNewProfile().then(function(result) {
             var pid = result.insertId;
             database.userProfileLinks.connectProfileWithUser(userid,pid).then(function(argument) {
-              var data = {'id'}// TODO
+              var data = {'id' : pid,
+                          'last_name' : request.body.last_name,
+                          'first_name' : request.body.first_name};
+              database.profile.upDateProfile(data).then(function() {
+                response.status(200).send({'reason' : 'ok'});
+              }).catch(function(err) {
+                response.status(503).send({'reason' : err});
+              });
             }).catch();
           }).catch();
         }
