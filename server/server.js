@@ -142,16 +142,25 @@ app.post('/user',function(request,response) {
               }).catch(function(err) {
                 response.status(503).send({'reason' : err});
               });
-            }).catch();
-          }).catch();
+            }).catch(function(err) {
+              response.status(503).send({'reason' : err});
+            });
+          }).catch(function(err) {
+            response.status(503).send({'reason' : err});
+          });
         }
-      }).catch();
+      }).catch(function(err) {
+        response.status(503).send({'reason' : err});
+      });
     }).catch(function(err) {
       response.status(401).send({'reason' : err});
     });
   }
 });
 
+app.post('/user/post',function(request,response){
+
+});
 app.get('/user/post',function(request,response) {
 });
 app.get('/user/post/:poid',function(request,response) {

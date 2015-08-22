@@ -21,7 +21,6 @@ module.exports = {
   },
   findProfileById : function(id){
     var ps = new Promise(function(resolve, reject) {
-      console.log(id);
       var query = 'SELECT * FROM ' + base + '.profile WHERE id LIKE' + ' \''
                   + id + '\'';
       sqlpool.pool.query(query,function(err,rows,fields){
@@ -46,8 +45,14 @@ module.exports = {
           var query = 'SELECT * FROM ' + base + '.profile WHERE id LIKE' + ' \''
                       + data.id + '\'';
           sqlpool.pool.query(query,function(err,rows,fields) {
-            last_name = data.last_name || rows[0].last_name;
-            first_name = data.first_name || rows[0].first_name;
+            last_name = data.last_name;
+            first_name = data.first_name;
+            if(last_name === undefined || last_name === null){
+              last_name = rows[0].last_name;
+            }
+            if(first_name === undefined || first_name === null){
+              first_name = rows[0].first_name;
+            }
             if(err){
               reject(err);
             }else {
