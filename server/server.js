@@ -7,6 +7,7 @@ var app = express();
 var Promise = require('promise');
 var Q = require('q');
 var http = require('http').Server(app);
+var serverSupport = require('./server_support.js');
 
 var port = process.env.PORT || 5000;
 
@@ -159,69 +160,78 @@ app.post('/user',function(request,response) {
 });
 
 app.post('/user/post',function(request,response){
-
-});
-app.get('/user/post',function(request,response) {
-});
-app.get('/user/post/:poid',function(request,response) {
-});
-/**
-app.post('/user',function(req,res){
-  var thistoken = req.token;
-  console.log(thistoken);
+  var thistoken = request.body.token || request.query.token
+              || request.headers['x-access-token'];
   if(thistoken === undefined || thistoken === null){
-    res.status(403).send({'reason' : 'need token'});
-  }else {
-    token.verToken(thistoken).then(function(decoded){
+    response.status(401).send({'reason' : 'need token'});
+  }else{
+    token.verToken(thistoken).then(function(decoded) {
       var userid = decoded.id;
-      database.findProfileIdByUserId(userid).then(function(result){
-        //console.log(result);
-        if(result[0] != null){
-          //console.log('1');
-          database.findProfileById(result[0].profile_id).then(function(result){
-            res.status(200).send(result[0]);
-          });
-
-        }else {
-          database.insertNewProfile().then(function(result){
-            var pid = result.insertId;
-            database.connectProfileWithUser(userid,pid).then(function(result){
-              res.status(200).send({'first_name' : null,'last_name' : null});
-            });
-          });
-        }
-      }).catch(function(err){
-        console.log(err);
+      database.poster.postNewPost({'title' : request.body.title,
+                                 'content' : request.body.content})
+      .then(function(result) {
+        database.posterUserLinks.connectPostWithUser(userid,result.insertId).then(function(argument) {
+          response.status(200).send({'reason' : 'ok'});
+        });
+      })
+      .catch(function(err) {
+        response.status(503).send({'reason' : err});
       });
-    }).catch(function(err){
-      res.status(401).send({'reason' : 'bad token'});
+    }).catch(function(err) {
+      response.status(401).send({'reason' : err});
     });
   }
 });
-app.post('/user/post',function(req,res){
-    var thistoken = req.token;
-    var content = req.body.content;
-    var title = req.body.title;
-    if(thistoken === null || thistoken === undefined){
-      res.status(403).send({'reason' : 'need token'});
-    }else {
-      token.verToken(thistoken).then(function(decoded){
-        var userid = decoded.id;
-        var data = {'title' : title, 'content' : content};
-        database.postNewPost(data).then(function(result){
-          database.connectPostWithUser(userid,result.insertId).then(function(){
-            res.status(200).send({'reason' : 'posted!'});
-          }).catch(function(err){
-            console.log(err);
-          });
-        }).catch(function(err){
-          console.log(err);
-        });
-      }).catch(function(err){
-        res.status(401).send({'reason' : 'bad token'});
+app.get('/user/post',function(request,response) {
+  var thistoken = request.body.token || request.query.token
+              || request.headers['x-access-token'];
+  if(thistoken === undefined || thistoken === null){
+    response.status(401).send({'reason' : 'need token'});
+  }else{
+    token.verToken(thistoken).then(function(decoded) {
+      var user_id = decoded.id;
+      serverSupport.getAllpostWithUserid(user_id).then(function(posts) {
+        response.status(200).send({'reason' : 'ok',
+                                   'posts' : posts});
+      }).catch(function(err) {
+        response.status(503).send({'reason' : err});
       });
-    }
-});**/
+    }).catch(function(err) {
+      response.status(401).send({'reason' : err});
+    });
+  }
+
+});
+app.get('/user/post/:poid',function(request,response) {
+  var thistoken = request.body.token || request.query.token
+              || request.headers['x-access-token'];
+  var editable = false;
+  if(thistoken === undefined || thistoken === null){
+    editable = false;
+    serverSupport.emitGetpostWithpoid(request,response,editable);
+  }else {
+    var prom = token.verToken(thistoken)
+    prom.then(function(decoded) {
+      var userid = decoded.id;
+      database.posterUserLinks.findUserIdByPostId(request.params.poid).then(function(rows) {
+        if(rows[0] != null){
+          if(rows[0].user_id === userid){
+            editable = true;
+          }else {
+            editable = false;
+          }
+        }else {
+          editable = false;
+        }
+        serverSupport.emitGetpostWithpoid(request,response,editable);
+      });
+    }).catch(function(err) {
+      editable = false;
+      serverSupport.emitGetpostWithpoid(request,response,editable);
+    });
+  }
+});
+
 
 http.listen(port,function(err){
   if(err){

@@ -107,7 +107,7 @@ module.exports = {
     return ps;
   },
   findPostById : function(id){
-    var ps = new new Promise(function(resolve, reject) {
+    var ps = new Promise(function(resolve, reject) {
       var query = 'SELECT * FROM ' + base + '.post WHERE id LIKE' + ' \''
                   + id + '\'';
       sqlpool.pool.query(query,function(err,result,field){
