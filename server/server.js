@@ -232,6 +232,10 @@ app.get('/user/post/:poid',function(request,response) {
   }
 });
 
+app.get('/user/answer',function(request,response) {
+  // TODO
+});
+
 
 http.listen(port,function(err){
   if(err){
