@@ -6,6 +6,7 @@ var sqlpool = require('./sqlpool.js');
 module.exports = {
   connectPostWithUser : function(uid,poid){
     var ps = new Promise(function(resolve, reject) {
+      //WARNING Siyuan: 千万不要这样！会造成SQL注射。使用https://hiddentao.github.io/squel/
       var query = 'INSERT INTO ' + base
           + '.post_user_links (user_id,post_id) VALUES ('+'\''+ uid
           +'\',\''+ poid +'\''+')';
