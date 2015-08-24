@@ -4,6 +4,9 @@ var base ='heroku_1024a2f8499bceb';
 var time = require('../supportfunctions/getTime.js');
 var sqlpool = require('./sqlpool.js');
 
+// Siyuan: 建议findUserByEmail放到 ./user/findUserByEmail.js
+// 下面同理
+
 module.exports = {
   findUserByEmail : function(email){
     var ps = new Promise(function(resolve, reject) {
