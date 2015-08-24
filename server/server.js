@@ -231,6 +231,20 @@ app.get('/user/post/:poid',function(request,response) {
     });
   }
 });
+app.post('/user/post/:poid',function(request,response) {
+  var thistoken = request.body.token || request.query.token
+              || request.headers['x-access-token'];
+  if(thistoken === null || thistoken === undefined){
+    response.status(401).send({'reason' : 'need token'});
+  }else {
+    token.verToken(thistoken).then(function(decoded) {
+      var user_id = decoded.id;
+      database.poster.upDatePost();//TODO
+    }).catch(function(err) {
+      response.status(401).send({'reason' : err});
+    });
+  }
+});
 
 app.get('/user/answer',function(request,response) {
   // TODO
