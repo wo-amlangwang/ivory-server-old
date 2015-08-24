@@ -27,6 +27,7 @@ route table :
 
 //Siyuan : Should use this instead, do not write route login in one file.
 /*
+https://www.npmjs.com/package/asset-server
    app.get('/signin', helper.authenticate, helper.checksomething, route.authenticate)
 */
 app.get('/signin',function(request,response) {
