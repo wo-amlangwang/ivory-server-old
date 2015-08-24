@@ -24,6 +24,11 @@ route table :
 /authentication : get return a login page
                   post will check the information of the user
 */
+
+//Siyuan : Should use this instead, do not write route login in one file.
+/*
+   app.get('/signin', helper.authenticate, helper.checksomething, route.authenticate)
+*/
 app.get('/signin',function(request,response) {
   response.sendFile(__dirname + '/htmls/signin.html');
 });
