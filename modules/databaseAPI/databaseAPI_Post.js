@@ -22,6 +22,8 @@ upDatePostTitle : update post's content in data
 upDatePost : combination of upDatePostTitle & upDatePostContent
 */
 
+// Siyuan : 最好把每一个函数分开成单独的文件
+
 var mysql = require('mysql');
 var Promise = require('promise');
 var base ='heroku_1024a2f8499bceb';
