@@ -21,6 +21,6 @@ module.exports = {
 
       return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
     }
-    //http://momentjs.com/
+    //Siyuan : http://momentjs.com/
 
 }
