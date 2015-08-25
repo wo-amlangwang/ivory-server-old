@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var Promise = require('promise');
-var base ='heroku_1024a2f8499bceb';
+var base =require('../database_config.json').base;
 var time = require('../../supportfunctions/getTime.js');
 var sqlpool = require('../sqlpool.js');
 var Q = require('q');

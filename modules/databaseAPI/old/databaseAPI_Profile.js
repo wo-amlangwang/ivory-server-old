@@ -3,12 +3,16 @@ var Promise = require('promise');
 var base ='heroku_1024a2f8499bceb';
 var time = require('../supportfunctions/getTime.js');
 var sqlpool = require('./sqlpool.js');
+var squel = require("squel");
 
 module.exports = {
   insertNewProfile : function(data){
     var ps = new Promise(function(resolve, reject) {
-      var query = 'INSERT INTO ' + base
-          + '.profile (last_name,first_name) VALUES (NULL,NULL)';
+      var s = squel.insert();
+      s.into(base + '.profile')
+      .set('last_name',null)
+      .set('first_name',null);
+      var query = s.toString();
       sqlpool.pool.query(query,function(err,result,fields) {
         if(err){
           reject(err);
@@ -21,8 +25,10 @@ module.exports = {
   },
   findProfileById : function(id){
     var ps = new Promise(function(resolve, reject) {
-      var query = 'SELECT * FROM ' + base + '.profile WHERE id LIKE' + ' \''
-                  + id + '\'';
+      var s = squel.select();
+      s.from(base+'.profile')
+      .where('id=?',id);
+      var query = s.toString();
       sqlpool.pool.query(query,function(err,rows,fields){
         if(err){
           reject(err);
@@ -42,8 +48,10 @@ module.exports = {
         var last_name;
         var first_name;
         var inps = new Promise(function(resolve, reject) {
-          var query = 'SELECT * FROM ' + base + '.profile WHERE id LIKE' + ' \''
-                      + data.id + '\'';
+          var s = select();
+          s.from(base + '.profile')
+          .where('id=?',data.id);
+          var query = s.toString();
           sqlpool.pool.query(query,function(err,rows,fields) {
             last_name = data.last_name;
             first_name = data.first_name;
@@ -62,9 +70,12 @@ module.exports = {
         });
         //console.log(3231);
         inps.then(function() {
-          var query = 'UPDATE '+ base + '.profile SET first_name = ' + '\'' +
-                      first_name + '\' , last_name = ' + '\'' + last_name + '\'' +
-                      ' WHERE id = ' + '\'' + data.id + '\'';
+          var s = squel.update();
+          s.table(base + '.profile')
+          .set('first_name',first_name)
+          .set('last_name',last_name)
+          .where('id=?',data.id);
+          var query = s.toString();
           sqlpool.pool.query(query,function(err,result){
             if(err){
               reject(err);
