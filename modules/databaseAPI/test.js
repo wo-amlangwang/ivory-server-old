@@ -2,7 +2,7 @@ var database = require('./databaseAPI_main.js');
 var squel = require("squel");
 var sqlpool = require('./sqlpool.js');
 
-database.user.findUserByEmail('langwang@lswn.com').then(function(result) {
+database.userProfileLinks.findProfileIdByUserId(1692).then(function(result) {
   console.log(result);
 }).catch(function(err) {
   // body...
