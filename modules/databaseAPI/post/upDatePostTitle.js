@@ -20,7 +20,7 @@ module.exports = {
           var s = squel.update();
           s.table(base + '.post')
           .set('title',data.title)
-          .set('last_updata_date',currentTime)
+          .set('last_update_date',currentTime)
           .where('id=?',post_id);
           var query = s.toString();
           sqlpool.pool.query(query,function (err,result) {
@@ -34,5 +34,5 @@ module.exports = {
       }
     });
     return ps;
-  } 
+  }
 }
