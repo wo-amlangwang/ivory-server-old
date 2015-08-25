@@ -1,5 +1,5 @@
 var jwt = require('jsonwebtoken');
-var key = require('../configs/token.json');
+var key = require('./configs/token.json');
 module.exports = function(){
   return{
     makeToken : function(userinfo){
