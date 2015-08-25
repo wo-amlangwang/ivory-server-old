@@ -1,4 +1,13 @@
 var database = require('./databaseAPI_main.js');
+var squel = require("squel");
+var sqlpool = require('./sqlpool.js');
+
+database.poster.findPostById(102).then(function(result) {
+  console.log(result);
+}).catch(function(err) {
+  // body...
+  console.log(err);
+});
 
 /*
 poster : require('./databaseAPI_Post.js'),
@@ -8,6 +17,7 @@ profile : require('./databaseAPI_Profile.js'),
 userProfileLinks : require('./databaseAPI_User&Profile.js')
 */
 //console.log(123);
+/**
 database.profile.upDateProfile({'id' : '152','first_name' : 'what','last_name' : '1234'}).then(function(){
   console.log('success');
 }).catch(function(err) {

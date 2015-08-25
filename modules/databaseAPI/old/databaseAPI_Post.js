@@ -30,6 +30,7 @@ var base ='heroku_1024a2f8499bceb';
 var time = require('../supportfunctions/getTime.js');
 var sqlpool = require('./sqlpool.js');
 var Q = require('q');
+var squel = require("squel");
 
 var upDatePostContent = function(data){
   var ps = new Promise(function(resolve, reject) {
@@ -41,17 +42,20 @@ var upDatePostContent = function(data){
         reject({'reason' : ' need content'});
       }else {
         var currentTime = time.getCurrentTime();
+        var s = squel.update();
+        s.table(base + '.post')
+        .set('content',data.content)
+        .set('last_updata_date',currentTime)
+        .where('id=?',post_id);
+        var query = s.toString();
+        sqlpool.pool.query(query,function (err,result) {
+          if(err){
+            reject(err);
+          }else {
+            resolve(result);
+          }
+        });
       }
-      var query = 'UPDATE ' + base + '.post SET content = ' + '\'' + data.content
-                  + '\', last_updata_date = \'' + currentTime + '\''
-                  + 'WHERE id = ' + '\'' + post_id + '\'';
-      sqlpool.pool.query(query,function (err,result) {
-        if(err){
-          reject(err);
-        }else {
-          resolve(result);
-        }
-      });
     }
   });
   return ps;
@@ -67,9 +71,12 @@ var upDatePostTitle = function(data){
         reject({'reason' : 'need title'});
       }else {
         var currentTime = time.getCurrentTime();
-        var query = 'UPDATE ' + base + '.post SET title = ' + '\'' + data.title
-                    + '\', last_updata_date = \'' + currentTime + '\''
-                    + 'WHERE id = ' + '\'' + post_id + '\'';
+        var s = squel.update();
+        s.table(base + '.post')
+        .set('title',data.title)
+        .set('last_updata_date',currentTime)
+        .where('id=?',post_id);
+        var query = s.toString();
         sqlpool.pool.query(query,function (err,result) {
           if(err){
             reject(err);
@@ -95,9 +102,14 @@ module.exports = {
         content = null;
       }
       var currentTime = time.getCurrentTime();
-      var last_updata_time = currentTime;
-      var query = 'INSERT INTO ' + base + '.post (title,content,date,last_updata_date) VALUES ('
-                  +'\'' + title + '\',\'' + content + '\',\'' + currentTime + '\',\''+ last_updata_time + '\')';
+      var last_update_time = currentTime;
+      var s = squel.insert();
+      s.into(base + '.post')
+      .set('title',title)
+      .set('content',content)
+      .set('date',currentTime)
+      .set('last_update_date',last_update_time);
+      var query = s.toString();
       sqlpool.pool.query(query,function (err,result,field) {
         if(err){
           reject(err);
@@ -110,8 +122,11 @@ module.exports = {
   },
   findPostById : function(id){
     var ps = new Promise(function(resolve, reject) {
-      var query = 'SELECT * FROM ' + base + '.post WHERE id LIKE' + ' \''
-                  + id + '\'';
+      var s = squel.select();
+      s.from(base + '.post')
+      .where('id=?',id);
+      console.log(s.toString());
+      var query = s.toString();
       sqlpool.pool.query(query,function(err,result,field){
         if(err){
           reject(err);
