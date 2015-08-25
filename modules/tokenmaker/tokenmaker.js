@@ -4,8 +4,7 @@ module.exports = function(){
   return{
     makeToken : function(userinfo){
       var ps = new Promise(function(fullfill, reject) {
-        // Siyuan: 安全隐患,请使用 jwt.sign({ foo: 'bar' }, cert, { algorithm: 'RS256'}); 需要加上algorithm
-        var token = jwt.sign(userinfo,key.key,{expiresInMinutes : 1440})
+        var token = jwt.sign(userinfo,key.key,{expiresInMinutes : 1440},{ algorithm: 'RS256'});
         fullfill({'token' : token});
       });
       return ps;
