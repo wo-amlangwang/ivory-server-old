@@ -10,10 +10,11 @@ module.exports = {
       response.status(401).send({'reason' : 'need token'});
     }else{
       token.verToken(thistoken).then(function(decoded){
-        response.userid = decoded.id;
+        request.userid = decoded.id;
         return next();
       }).catch(function(err){
         response.status(401).send({'reason' : err});
       });
     }
+  }
 }

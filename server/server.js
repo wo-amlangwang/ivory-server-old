@@ -41,35 +41,7 @@ app.get('/authentication',function(request,response) {
 });
 app.post('/authentication',middlewares.authentication,middlewares.makeToken);
 
-app.get('/user',function(request,response) {
-  var thistoken = request.body.token || request.query.token
-              || request.headers['x-access-token'];
-  if(thistoken === undefined || thistoken === null){
-    response.status(401).send({'reason' : 'need token'});
-  }else{
-    token.verToken(thistoken).then(function(decoded){
-      var userid = decoded.id;
-      database.userProfileLinks.findProfileIdByUserId(userid).then(function(rows){
-        if(rows[0] != null){
-          database.profile.findProfileById(rows[0].profile_id).then(function(rows){
-            response.status(200).send(rows[0]);
-          });
-        }else {
-          database.profile.insertNewProfile().then(function(result) {
-            var pid = result.insertId;
-            database.userProfileLinks.connectProfileWithUser(userid,pid).then(function(argument) {
-              response.status(200).send({'first_name' : null,'last_name' : null});
-            });
-          });
-        }
-      }).catch(function(err){
-        response.status(503).send({'reason' : err});
-      });
-    }).catch(function(err){
-      response.status(401).send({'reason' : err});
-    });
-  }
-});
+app.get('/user',middlewares.checkToken,middlewares.findOrInsertProfile);
 app.post('/user',function(request,response) {
   var thistoken = request.body.token || request.query.token
               || request.headers['x-access-token'];
