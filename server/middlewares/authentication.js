@@ -9,7 +9,7 @@ module.exports = {
     database.user.findUserByEmail(email).then(function(rows) {
       if(rows[0] != null){
         hasher.comparePassword(password,rows[0]).then(function(result) {
-          request.tokenid = rows[0].id;
+          request.userid = rows[0].id;
           return next();
         }).catch(function(err) {
           response.status(401).send({'reason' : 'incorrect username or password',

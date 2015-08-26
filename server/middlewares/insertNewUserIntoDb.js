@@ -9,7 +9,7 @@ module.exports = {
                        'hashed_pw' : result.hashed_pw,
                        'pwsalt' : result.pwsalt};
       database.user.insertNewUser(user_info).then(function(result){
-        request.tokenid = result.insertId;
+        request.userid = result.insertId;
         return next();
       });
     }).catch(function(err){

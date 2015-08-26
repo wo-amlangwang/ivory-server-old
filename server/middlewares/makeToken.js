@@ -4,7 +4,7 @@ var token = require('../../modules/tokenmaker/tokenmaker.js')();
 
 module.exports = {
   makeToken : function(request,response,next) {
-    token.makeToken({'id' : request.tokenid}).then(function(thistoken){
+    token.makeToken({'id' : request.userid}).then(function(thistoken){
       response.status(200).send({'reason' : 'ok',
                                  'token' : thistoken.token});
     }).catch(function(err){
