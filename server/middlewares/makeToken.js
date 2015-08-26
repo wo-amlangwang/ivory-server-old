@@ -3,8 +3,8 @@ var hasher = require('../../modules/passwordhasher/passwordhasher.js')();
 var token = require('../../modules/tokenmaker/tokenmaker.js')();
 
 module.exports = {
-  makeToken : function(request,response) {
-    token.makeToken({'id' : request.insertId}).then(function(thistoken){
+  makeToken : function(request,response,next) {
+    token.makeToken({'id' : request.tokenid}).then(function(thistoken){
       response.status(200).send({'reason' : 'ok',
                                  'token' : thistoken.token});
     }).catch(function(err){

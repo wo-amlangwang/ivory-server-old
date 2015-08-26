@@ -39,30 +39,7 @@ middlewares.insertNewUserIntoDb,middlewares.makeToken);
 app.get('/authentication',function(request,response) {
   response.sendFile(__dirname + '/htmls/login.html');
 });
-app.post('/authentication',function(request,response) {
-  var email = request.body.email;
-  var password = request.body.password;
-  database.user.findUserByEmail(email).then(function(rows) {
-    if(rows[0] != null){
-      hasher.comparePassword(password,rows[0]).then(function(result) {
-        token.makeToken({'id' : rows[0].id}).then(function(thistoken){
-          response.status(200).send({'reason' : 'ok',
-                                'token' : thistoken.token});
-        }).catch(function(err){
-          response.status(503).send({'reason' : err});
-        });
-      }).catch(function(err) {
-        response.status(401).send({'reason' : 'incorrect username or password',
-                              'token' : null});
-      });
-    }else {
-      response.status(401).send({'reason' : 'incorrect username or password',
-                            'token' : null});
-    }
-  }).catch(function(err) {
-    response.status(503).send({'reason' : err});
-  });
-});
+app.post('/authentication',middlewares.authentication,middlewares.makeToken);
 
 app.get('/user',function(request,response) {
   var thistoken = request.body.token || request.query.token
