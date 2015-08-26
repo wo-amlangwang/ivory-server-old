@@ -42,75 +42,9 @@ app.get('/authentication',function(request,response) {
 app.post('/authentication',middlewares.authentication,middlewares.makeToken);
 
 app.get('/user',middlewares.checkToken,middlewares.findOrInsertProfile);
-app.post('/user',function(request,response) {
-  var thistoken = request.body.token || request.query.token
-              || request.headers['x-access-token'];
-  if(thistoken === undefined || thistoken === null){
-    response.status(401).send({'reason' : 'need token'});
-  }else {
-    token.verToken(thistoken).then(function(decoded) {
-      var userid = decoded.id;
-      database.userProfileLinks.findProfileIdByUserId(userid).then(function(rows){
-        if(rows[0] != null){
-          var data = {'id' : rows[0].profile_id,
-                      'last_name' : request.body.last_name,
-                      'first_name' : request.body.first_name};
-          database.profile.upDateProfile(data).then(function() {
-            response.status(200).send({'reason' : 'ok'});
-          }).catch(function(err) {
-            response.status(503).send({'reason' : err});
-          });
-        }else {
-          database.profile.insertNewProfile().then(function(result) {
-            var pid = result.insertId;
-            database.userProfileLinks.connectProfileWithUser(userid,pid).then(function(argument) {
-              var data = {'id' : pid,
-                          'last_name' : request.body.last_name,
-                          'first_name' : request.body.first_name};
-              database.profile.upDateProfile(data).then(function() {
-                response.status(200).send({'reason' : 'ok'});
-              }).catch(function(err) {
-                response.status(503).send({'reason' : err});
-              });
-            }).catch(function(err) {
-              response.status(503).send({'reason' : err});
-            });
-          }).catch(function(err) {
-            response.status(503).send({'reason' : err});
-          });
-        }
-      }).catch(function(err) {
-        response.status(503).send({'reason' : err});
-      });
-    }).catch(function(err) {
-      response.status(401).send({'reason' : err});
-    });
-  }
-});
+app.post('/user',middlewares.checkToken,middlewares.updateOrInsertProfile);
 
-app.post('/user/post',function(request,response){
-  var thistoken = request.body.token || request.query.token
-              || request.headers['x-access-token'];
-  if(thistoken === undefined || thistoken === null){
-    response.status(401).send({'reason' : 'need token'});
-  }else{
-    token.verToken(thistoken).then(function(decoded) {
-      var userid = decoded.id;
-      database.poster.postNewPost({'title' : request.body.title,
-                                 'content' : request.body.content})
-      .then(function(result) {
-        database.posterUserLinks.connectPostWithUser(userid,result.insertId).then(function(argument) {
-          response.status(200).send({'reason' : 'ok'});
-        });
-      })
-      .catch(function(err) {
-        response.status(503).send({'reason' : err});
-      });
-    }).catch(function(err) {
-      response.status(401).send({'reason' : err});
-    });
-  }
-});
+app.post('/user/post',middlewares.checkToken,middlewares.postNewPost);
 app.get('/user/post',function(request,response) {
   var thistoken = request.body.token || request.query.token
               || request.headers['x-access-token'];
