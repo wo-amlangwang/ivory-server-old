@@ -1,7 +1,7 @@
 var database = require('../../modules/databaseAPI/databaseAPI_main.js');
 var hasher = require('../../modules/passwordhasher/passwordhasher.js')();
 var token = require('../../modules/tokenmaker/tokenmaker.js')();
-var serverSupport = require('./server_support.js');
+var serverSupport = require('../server_support.js');
 
 module.exports = {
   getAllPost : function(request,response,next) {
