@@ -45,26 +45,7 @@ app.get('/user',middlewares.checkToken,middlewares.findOrInsertProfile);
 app.post('/user',middlewares.checkToken,middlewares.updateOrInsertProfile);
 
 app.post('/user/post',middlewares.checkToken,middlewares.postNewPost);
-app.get('/user/post',function(request,response) {
-  var thistoken = request.body.token || request.query.token
-              || request.headers['x-access-token'];
-  if(thistoken === undefined || thistoken === null){
-    response.status(401).send({'reason' : 'need token'});
-  }else{
-    token.verToken(thistoken).then(function(decoded) {
-      var user_id = decoded.id;
-      serverSupport.getAllpostWithUserid(user_id).then(function(posts) {
-        response.status(200).send({'reason' : 'ok',
-                                   'posts' : posts});
-      }).catch(function(err) {
-        response.status(503).send({'reason' : err});
-      });
-    }).catch(function(err) {
-      response.status(401).send({'reason' : err});
-    });
-  }
-
-});
+app.get('/user/post',middlewares.checkToken,middlewares.getAllPost);
 app.get('/user/post/:poid',function(request,response) {
   var thistoken = request.body.token || request.query.token
               || request.headers['x-access-token'];

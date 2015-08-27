@@ -6,5 +6,6 @@ module.exports = {
   checkToken : require('./checkToken.js').checkToken,
   findOrInsertProfile : require('./findOrInsertProfile.js').findOrInsertProfile,
   postNewPost : require('./postNewPost.js').postNewPost,
-  updateOrInsertProfile : require('./updateOrInsertProfile.js').updateOrInsertProfile
+  updateOrInsertProfile : require('./updateOrInsertProfile.js').updateOrInsertProfile,
+  getAllPost : require('/getAllPost.js').getAllPost
 }
