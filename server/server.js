@@ -30,6 +30,7 @@ route table :
 https://www.npmjs.com/package/asset-server
    app.get('/signin', helper.authenticate, helper.checksomething, route.authenticate)
 */
+app.post('/test',middlewares.test1);
 app.get('/signin',function(request,response) {
   response.sendFile(__dirname + '/htmls/signin.html');
 });
