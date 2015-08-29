@@ -13,7 +13,8 @@ module.exports = {
       var s = squel.insert();
       s.into(base + '.answer')
       .set('content',data.content)
-      .set('date',time.getCurrentTime());
+      .set('date',time.getCurrentTime())
+      .set('last_update_date',time.getCurrentTime());
       var query = s.toString();
       sqlpool.pool.query(query,function(err,result,field) {
         if(err){
