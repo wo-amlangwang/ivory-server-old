@@ -7,6 +7,5 @@ module.exports = {
   findOrInsertProfile : require('./findOrInsertProfile.js').findOrInsertProfile,
   postNewPost : require('./postNewPost.js').postNewPost,
   updateOrInsertProfile : require('./updateOrInsertProfile.js').updateOrInsertProfile,
-  getAllPost : require('./getAllPost.js').getAllPost,
-  test1 : require('./test1.js').test1
+  getAllPost : require('./getAllPost.js').getAllPost
 }
