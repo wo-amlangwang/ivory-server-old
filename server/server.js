@@ -47,7 +47,13 @@ app.post('/user',middlewares.checkToken,middlewares.updateOrInsertProfile);
 app.post('/user/post',middlewares.checkToken,middlewares.postNewPost);
 app.get('/user/post',middlewares.checkToken,middlewares.getAllPost);
 
+app.get('/token',middlewares.checkToken,function(request,response) {
+  response.status(200).send({'reason' : 'ok'});
+});
 
+app.get('/post',);
+app.get('/post/:poid',);
+app.get('/post/:poid/answers',);
 
 http.listen(port,function(err){
   if(err){
