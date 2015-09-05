@@ -21,6 +21,11 @@ module.exports = {
           s.set('content',data.content);
           s.set('last_update_date',time.getCurrentTime());
           s.where('id=?',answer_id);
+<<<<<<< Updated upstream
+=======
+
+          
+>>>>>>> Stashed changes
           var query = s.toString();
           sqlpool.pool.query(query,function (err,result) {
             if(err){
