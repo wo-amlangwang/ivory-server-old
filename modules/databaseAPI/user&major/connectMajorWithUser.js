@@ -1,17 +1,16 @@
 var mysql = require('mysql');
 var Promise = require('promise');
 var base =require('../database_config.json').base;
-var time = require('../../supportfunctions/getTime.js');
 var sqlpool = require('../sqlpool.js');
 var squel = require("squel");
 
 module.exports = {
-  connectAnswerWithPost : function(poid,aid) {
+  connectMajorWithUser : function(uid,mid) {
     var ps = new Promise(function(resolve, reject) {
       var s = squel.insert();
-      s.into(base + '.answer_post_links')
-      .set('answer_id',aid)
-      .set('post_id',poid);
+      s.into(base + '.user_major_links')
+      .set('user_id',uid)
+      .set('major_id',mid);
       var query = s.toString();
       sqlpool.pool.query(query,function(err,result,fields) {
         if(err){

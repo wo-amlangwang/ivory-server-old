@@ -6,12 +6,12 @@ var sqlpool = require('../sqlpool.js');
 var squel = require("squel");
 
 module.exports = {
-  connectAnswerWithPost : function(poid,aid) {
+  connectAnswerWithUser : function(uid,aid) {
     var ps = new Promise(function(resolve, reject) {
       var s = squel.insert();
-      s.into(base + '.answer_post_links')
-      .set('answer_id',aid)
-      .set('post_id',poid);
+      s.into(base + '.answer_user_links')
+      .set('user_id',uid)
+      .set('answer_id',aid);
       var query = s.toString();
       sqlpool.pool.query(query,function(err,result,fields) {
         if(err){
