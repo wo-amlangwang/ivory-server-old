@@ -54,7 +54,7 @@ app.get('/token',middlewares.checkToken,function(request,response) {
 app.get('/post',);
 app.get('/post/:poid',);
 app.get('/post/:poid/answers',);
-
+app.get('/somefunction',);
 http.listen(port,function(err){
   if(err){
     console.log(err);
