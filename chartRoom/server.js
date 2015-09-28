@@ -10,7 +10,7 @@ mongoose.connect();
 app.use(bodyParser());
 app.post('/ivory/chartroom/login',function(req,res) {
   var client;
-  if(req.body.email === undefined || req.body.email === 'null'){
+  if(req.body.isGuest === 'true'){
     //for guest
     var guestid = '/guest/' + uuid.v1();
     client = io.of(guestid);
