@@ -51,10 +51,9 @@ app.get('/token',middlewares.checkToken,function(request,response) {
   response.status(200).send({'reason' : 'ok'});
 });
 
-app.get('/post',);
-app.get('/post/:poid',);
-app.get('/post/:poid/answers',);
-app.get('/somefunction',);
+//app.get('/post',);
+//app.get('/post/:poid',);
+//app.get('/post/:poid/answers',);
 http.listen(port,function(err){
   if(err){
     console.log(err);
